@@ -32,7 +32,7 @@ export default function Home() {
   return (
     <div>
       <Hero title="Welcome to MacLearn!" description="Learn and master web development for free." />
-      <div className="flex justify-center gap-x-5 flex-wrap px-25">
+      <div className="flex justify-center gap-5 flex-wrap px-25">
         {courses.map((course, i) => (
           <CourseCard key={i} {...course} />
         ))}
