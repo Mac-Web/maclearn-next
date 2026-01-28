@@ -15,3 +15,5 @@ export type CourseType = {
   metadataDescription: string;
   articles: ArticleType[];
 };
+
+export type UnitsType = Record<string, ArticleType[]>;
