@@ -30,7 +30,7 @@ const courses = [
 
 export default function Home() {
   return (
-    <div>
+    <div className="mb-15">
       <Hero title="Welcome to MacLearn!" description="Learn and master web development for free." />
       <div className="flex justify-center gap-5 flex-wrap px-25">
         {courses.map((course, i) => (

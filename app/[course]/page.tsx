@@ -52,7 +52,7 @@ async function Page({ params }: { params: { course: string } }) {
   }, {});
 
   return (
-    <div>
+    <div className="mb-15">
       <Hero title={courseData.heroName || `Learn ${courseData.name}`} description={courseData.description} />
       <Units courseUnits={courseUnits} course={course} />
     </div>

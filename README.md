@@ -54,7 +54,7 @@ To host MacLearn on your machine for local development or other purposes, simply
 
    ```bash
    npm install
-   npx next dev -p 3001
+   npm run dev
    ```
 
    to start the Next.js dev server at maclearn.macweb.com:3001 and see the magic!

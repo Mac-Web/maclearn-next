@@ -11,5 +11,6 @@
 }
 
 body {
+  font-family: var(--font-inter);
   @apply bg-gray-200 dark:bg-gray-950 duration-300;
 }
