@@ -6,6 +6,9 @@ export type ArticleType = {
   articleRelease: string;
   author: string;
   id: number;
+  interactives?: string[];
+  interactiveHTML?: string;
+  interactiveCSS?: string;
 };
 
 export type CourseType = {

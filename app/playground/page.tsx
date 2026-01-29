@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Hero from "@/components/layout/Hero";
+import Playground from "./Playground";
 
 export const metadata: Metadata = {
   title: "Playground | MacLearn",
@@ -25,11 +26,12 @@ export const metadata: Metadata = {
 
 function Page() {
   return (
-    <div>
+    <div className="mb-15 px-5 md:px-20 lg:px-[calc(50%-550px)]">
       <Hero
         title="Code Playground"
         description="Test, experiment, and apply the coding skills you've learned in the code playground."
       />
+      <Playground />
     </div>
   );
 }

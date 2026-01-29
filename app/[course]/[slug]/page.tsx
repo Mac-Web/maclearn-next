@@ -4,6 +4,7 @@ import coursesData from "@/content/courses.json";
 import ArticleBtns from "./ArticleBtns";
 import NavBtns from "./NavBtns";
 import Hero from "@/components/layout/Hero";
+import Lab from "./Lab";
 import Link from "next/link";
 
 const courses = coursesData as Record<string, CourseType>;
@@ -92,13 +93,15 @@ async function Page({ params }: { params: { course: string; slug: number } }) {
         {contentParts?.map((part, i) => {
           return (
             <div key={i}>
-              <div className="py-5 text-[18px] text-gray-700 dark:text-gray-300" dangerouslySetInnerHTML={{ __html: part }} />
+              <div
+                className="py-5 text-[18px] text-gray-700 dark:text-gray-300 leading-7.5"
+                dangerouslySetInnerHTML={{ __html: part }}
+              />
               {i < contentParts.length - 1 && (
-                // <Lab
-                //   html={article.interactives ? article.interactives[i] : article.interactiveHTML}
-                //   css={article.interactiveCSS ? article.interactiveCSS : ""}
-                // />
-                <div className="text-red-600 text-5xl font-bold">lab</div>
+                <Lab
+                  html={articleData.interactives ? articleData.interactives[i] : articleData.interactiveHTML!}
+                  css={articleData.interactiveCSS || ""}
+                />
               )}
             </div>
           );
