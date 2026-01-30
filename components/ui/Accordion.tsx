@@ -32,8 +32,8 @@ function Accordion({ id, articles, course, open, setOpen }: AccordionProps) {
             {articles.map((article) => {
               return (
                 <Link
-                  href={`/${course}/${article.id}`}
                   key={article.id}
+                  href={`/${course}/${article.slug}`}
                   className="px-7 py-3 block hover:bg-[#bec2c9] dark:hover:bg-gray-800"
                 >
                   {article.articleName}

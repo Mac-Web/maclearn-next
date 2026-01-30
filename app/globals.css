@@ -18,3 +18,7 @@ body {
 code {
   @apply bg-gray-200 dark:bg-gray-950 block font-mono p-5 py-2.5 rounded-lg text-blue-600 dark:text-blue-400 text-lg border-2 border-gray-700 my-5;
 }
+
+.modal-open {
+  @apply overflow-hidden;
+}

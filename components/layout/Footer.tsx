@@ -29,6 +29,11 @@ function Footer() {
             Tony Macaroni
           </a>
         </div>
+        <div className="text-gray-800 dark:text-gray-100">
+          <a href="https://buymeacoffee.com/tonymac129" target="_blank" className="underline">
+            Buy me a coffee ☕
+          </a>
+        </div>
       </div>
       <div className={footerColumnStyles}>
         <h2 className={footerColumnTitleStyles}>Browse Tabs</h2>
@@ -62,10 +67,10 @@ function Footer() {
       </div>
       <div className={footerColumnStyles}>
         <h2 className={footerColumnTitleStyles}>MacWeb Apps</h2>
-        <a href="https://mac-web.github.io/" className={footerLinkStyles} target="_blank">
+        <a href="https://macweb.app" className={footerLinkStyles} target="_blank">
           MacWeb
         </a>
-        <a href="https://mac-web.github.io/macvg/" className={footerLinkStyles} target="_blank">
+        <a href="https://macvg.macweb.app" className={footerLinkStyles} target="_blank">
           MacVG
         </a>
         <a href="https://mac-web.github.io/macideas/" className={footerLinkStyles} target="_blank">
@@ -87,7 +92,7 @@ function Footer() {
           <a href="https://www.youtube.com/@MacWebApp" target="_blank" title="YouTube">
             <Image src="/icons/social/youtube.svg" alt="YouTube icon" width={25} height={25} className="invert dark:invert-0" />
           </a>
-          <a href="https://github.com/Mac-Web/maclearn" target="_blank" title="Source code">
+          <a href="https://github.com/Mac-Web/maclearn-next" target="_blank" title="Source code">
             <Image src="/icons/social/github.svg" alt="GitHub icon" width={25} height={25} className="invert dark:invert-0" />
           </a>
           <a href="https://discord.gg/UT7g2S2cBP" target="_blank" title="Join our server!">

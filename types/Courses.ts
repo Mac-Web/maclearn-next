@@ -6,6 +6,8 @@ export type ArticleType = {
   articleRelease: string;
   author: string;
   id: number;
+  slug: string;
+  sidebarText?: string;
   interactives?: string[];
   interactiveHTML?: string;
   interactiveCSS?: string;

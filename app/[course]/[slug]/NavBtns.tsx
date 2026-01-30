@@ -1,3 +1,4 @@
+import { ArticleType } from "@/types/Courses";
 import Link from "next/link";
 
 const navBtnStyles =
@@ -6,16 +7,23 @@ const navBtnStyles =
 type NavBtnsProps = {
   id: number;
   course: string;
+  courseArticles: ArticleType[];
   last?: boolean;
 };
 
-function NavBtns({ id, course, last }: NavBtnsProps) {
+function NavBtns({ id, course, courseArticles, last }: NavBtnsProps) {
   return (
     <div className="flex justify-center gap-x-7 mt-10 mb-15">
-      <Link href={`/${course}/${id === 0 ? "" : id - 1}`} className={navBtnStyles}>
+      <Link
+        href={`/${course}/${id === 0 ? "" : courseArticles.find((article) => article.id === id - 1)!.slug}`}
+        className={navBtnStyles}
+      >
         Back
       </Link>
-      <Link href={last ? "/" : `/${course}/${id + 1}`} className={navBtnStyles}>
+      <Link
+        href={`/${course}/${last ? "" : courseArticles.find((article) => article.id === id + 1)!.slug}`}
+        className={navBtnStyles}
+      >
         Next
       </Link>
     </div>

@@ -10,15 +10,15 @@ import Link from "next/link";
 const courses = coursesData as Record<string, CourseType>;
 const courseNames = ["html", "css", "references"];
 
-function getArticleData(course: string, slug: number): ArticleType {
+function getArticleData(course: string, slug: string): ArticleType {
   if (!courseNames.includes(course)) notFound();
   const courseData = courses[course];
-  const articleData = courseData.articles.find((article) => Number(article.id) === Number(slug));
+  const articleData = courseData.articles.find((article) => article.slug === slug);
   if (!articleData) notFound();
   return articleData;
 }
 
-export async function generateMetadata({ params }: { params: { course: string; slug: number } }) {
+export async function generateMetadata({ params }: { params: { course: string; slug: string } }) {
   const { course, slug } = await params;
   const articleData = getArticleData(course, slug);
   const title = `${articleData.articleName} | MacLearn`;
@@ -44,9 +44,7 @@ export async function generateMetadata({ params }: { params: { course: string; s
   };
 }
 
-async function Page({ params }: { params: { course: string; slug: number } }) {
-  //TODO: change params slug to a string add a string field to json data
-
+async function Page({ params }: { params: { course: string; slug: string } }) {
   const { course, slug } = await params;
   const articleData = getArticleData(course, slug);
   const courseUnits = courses[course].articles.reduce((acc: UnitsType, article) => {
@@ -69,11 +67,11 @@ async function Page({ params }: { params: { course: string; slug: number } }) {
               {unit.map((article) => (
                 <Link
                   key={article.id}
-                  href={`/${course}/${article.id}`}
+                  href={`/${course}/${article.slug}`}
                   className={` rounded hover:bg-gray-300 dark:hover:bg-gray-900 px-4 py-2
-                    ${article.id == slug ? "text-blue-600 dark:text-blue-500" : "text-gray-700 dark:text-gray-300"}`}
+                    ${article.slug === slug ? "text-blue-600 dark:text-blue-500" : "text-gray-700 dark:text-gray-300"}`}
                 >
-                  {article.articleName}
+                  {article.sidebarText || article.articleName}
                 </Link>
               ))}
             </div>
@@ -106,7 +104,12 @@ async function Page({ params }: { params: { course: string; slug: number } }) {
             </div>
           );
         })}
-        <NavBtns id={Number(slug)} course={course} last={slug == courses[course].articles.length - 1} />
+        <NavBtns
+          id={articleData.id}
+          course={course}
+          courseArticles={courses[course].articles}
+          last={articleData.id === courses[course].articles.length - 1}
+        />
       </div>
     </div>
   );
