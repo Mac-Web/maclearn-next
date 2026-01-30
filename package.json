@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@next/third-parties": "^16.1.6",
     "framer-motion": "^12.29.2",
     "mongodb": "^7.0.0",
     "mongoose": "^9.1.5",
