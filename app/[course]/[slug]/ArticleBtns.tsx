@@ -1,12 +1,20 @@
 "use client";
 
+import type { Session } from "next-auth";
 import { FaStar, FaRegStar, FaShare, FaFlag } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import Modal from "@/components/ui/Modal";
 
-function ArticleBtns() {
-  const [favorited, setFavorited] = useState<boolean>(false);
+type ArticleBtnsProps = {
+  session: Session | null;
+  slug: string;
+  isFavorited: boolean;
+  toggleFavorite: (slug: string) => Promise<void>;
+};
+
+function ArticleBtns({ session, slug, isFavorited, toggleFavorite }: ArticleBtnsProps) {
+  const [favorited, setFavorited] = useState<boolean>(isFavorited);
   const [shareModalOpen, setShareModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -22,13 +30,22 @@ function ArticleBtns() {
 
   return (
     <div className="flex gap-x-7 py-4">
-      <motion.div whileHover={{ scale: 1.2, y: -3 }} whileTap={{ scale: 1.1, y: -1 }} onClick={() => setFavorited(!favorited)}>
-        {favorited ? (
-          <FaStar size={20} className="cursor-pointer text-blue-600" title="Unfavorite article" />
-        ) : (
-          <FaRegStar size={20} className="cursor-pointer" title="Favorite article" />
-        )}
-      </motion.div>
+      {session?.user?.email && (
+        <motion.div
+          whileHover={{ scale: 1.2, y: -3 }}
+          whileTap={{ scale: 1.1, y: -1 }}
+          onClick={async () => {
+            setFavorited(!favorited);
+            await toggleFavorite(slug);
+          }}
+        >
+          {favorited ? (
+            <FaStar size={20} className="cursor-pointer text-blue-600" title="Unfavorite article" />
+          ) : (
+            <FaRegStar size={20} className="cursor-pointer" title="Favorite article" />
+          )}
+        </motion.div>
+      )}
       <motion.div whileHover={{ scale: 1.2, y: -3 }} whileTap={{ scale: 1.1, y: -1 }} onClick={() => setShareModalOpen(true)}>
         <FaShare size={20} className="cursor-pointer" title="Share article" />
       </motion.div>

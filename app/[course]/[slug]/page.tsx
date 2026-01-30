@@ -1,5 +1,10 @@
 import type { ArticleType, CourseType, UnitsType } from "@/types/Courses";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { dbConnect } from "@/lib/db";
+import { User } from "@/models/User";
 import { notFound } from "next/navigation";
+import { toggleFavorite } from "./actions";
 import coursesData from "@/content/courses.json";
 import ArticleBtns from "./ArticleBtns";
 import NavBtns from "./NavBtns";
@@ -46,6 +51,15 @@ export async function generateMetadata({ params }: { params: { course: string; s
 
 async function Page({ params }: { params: { course: string; slug: string } }) {
   const { course, slug } = await params;
+  const session = await getServerSession(authOptions);
+  let favorited = false;
+  if (session?.user?.email) {
+    await dbConnect();
+    const existingUser = await User.findOne({ email: session.user.email });
+    if (existingUser.maclearnArticles.includes(slug)) {
+      favorited = true;
+    }
+  }
   const articleData = getArticleData(course, slug);
   const courseUnits = courses[course].articles.reduce((acc: UnitsType, article) => {
     if (acc[article.unit]) {
@@ -85,7 +99,7 @@ async function Page({ params }: { params: { course: string; slug: string } }) {
             <span className="date">{new Date(articleData.articleDate).toLocaleDateString()}</span>
             <span>By {articleData.author}</span>
           </h3>
-          <ArticleBtns />
+          <ArticleBtns session={session} slug={slug} isFavorited={favorited} toggleFavorite={toggleFavorite} />
         </div>
         <hr className="h-1.25 border-0 bg-blue-600 rounded-full" />
         {contentParts?.map((part, i) => {

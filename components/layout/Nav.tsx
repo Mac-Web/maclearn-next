@@ -1,5 +1,5 @@
-import NavSearch from "./NavSearch";
-import NavTheme from "./NavTheme";
+import NavSearch from "../ui/NavSearch";
+import User from "../ui/User";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -34,7 +34,7 @@ function Nav() {
           <Link href="/playground" className={navLinkStyles}>
             Playground
           </Link>
-          <NavTheme />
+          <User />
         </div>
       </div>
     </nav>
