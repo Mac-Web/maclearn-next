@@ -242,7 +242,7 @@
     {
       "id": 1,
       "name": "CSS Colors",
-      "slug": "css-colors",
+      "slug": "css-colors-quiz",
       "description": "Click \"start\" to see what you know about basic CSS syntax and implementation!",
       "questions": [
         {

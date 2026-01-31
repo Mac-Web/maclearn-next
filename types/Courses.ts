@@ -1,3 +1,5 @@
+import { QuizType } from "./Quiz";
+
 export type ArticleType = {
   paragraph: string;
   unit: string;
@@ -21,4 +23,6 @@ export type CourseType = {
   articles: ArticleType[];
 };
 
-export type UnitsType = Record<string, ArticleType[]>;
+export type CourseItemType = ArticleType | QuizType;
+
+export type UnitsType = Record<string, CourseItemType[]>;

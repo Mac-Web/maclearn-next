@@ -1,4 +1,5 @@
 import type { ArticleType, CourseType, UnitsType } from "@/types/Courses";
+import type { QuizType } from "@/types/Quiz";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { dbConnect } from "@/lib/db";
@@ -6,13 +7,15 @@ import { User } from "@/models/User";
 import { notFound } from "next/navigation";
 import { toggleFavorite } from "./actions";
 import coursesData from "@/content/courses.json";
+import quizzesData from "@/content/quizzes.json";
 import ArticleBtns from "./ArticleBtns";
 import NavBtns from "./NavBtns";
+import Sidebar from "@/components/layout/Sidebar";
 import Hero from "@/components/layout/Hero";
 import Lab from "./Lab";
-import Link from "next/link";
 
 const courses = coursesData as Record<string, CourseType>;
+const quizzes = quizzesData as Record<string, QuizType[]>;
 const courseNames = ["html", "css", "references"];
 
 function getArticleData(course: string, slug: string): ArticleType {
@@ -64,6 +67,12 @@ async function Page({ params }: { params: { course: string; slug: string } }) {
   const courseUnits = courses[course].articles.reduce((acc: UnitsType, article) => {
     if (acc[article.unit]) {
       acc[article.unit].push(article);
+      if (quizzes[course]) {
+        const existingQuiz = quizzes[course].find((quiz) => quiz.prev === article.id);
+        if (existingQuiz) {
+          acc[article.unit].push(existingQuiz);
+        }
+      }
     } else {
       acc[article.unit] = [article];
     }
@@ -73,25 +82,7 @@ async function Page({ params }: { params: { course: string; slug: string } }) {
 
   return (
     <div className="px-5 md:px-20 lg:px-[calc(50%-550px)] flex">
-      <div className="hidden sm:block w-40 md:w-60 max-h-[calc(100vh-68px)] sticky top-17 py-5 pr-3 overflow-auto">
-        {Object.values(courseUnits).map((unit, i) => {
-          return (
-            <div key={i} className="flex flex-col">
-              <h2 className="text-black dark:text-white font-bold text-xl px-4 py-3">{unit[0].unit}</h2>
-              {unit.map((article) => (
-                <Link
-                  key={article.id}
-                  href={`/${course}/${article.slug}`}
-                  className={` rounded hover:bg-gray-300 dark:hover:bg-gray-900 px-4 py-2
-                    ${article.slug === slug ? "text-blue-600 dark:text-blue-500" : "text-gray-700 dark:text-gray-300"}`}
-                >
-                  {article.sidebarText || article.articleName}
-                </Link>
-              ))}
-            </div>
-          );
-        })}
-      </div>
+      <Sidebar courseUnits={courseUnits} course={course} slug={slug} />
       <div className="flex-1 pl-0 sm:pl-5 md:pl-15">
         <Hero title={articleData.articleName} />
         <div className="flex justify-between">
@@ -118,12 +109,7 @@ async function Page({ params }: { params: { course: string; slug: string } }) {
             </div>
           );
         })}
-        <NavBtns
-          id={articleData.id}
-          course={course}
-          courseArticles={courses[course].articles}
-          last={articleData.id === courses[course].articles.length - 1}
-        />
+        <NavBtns id={articleData.id} course={course} courseArticles={courseUnits} />
       </div>
     </div>
   );
